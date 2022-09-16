@@ -25,6 +25,9 @@ export const deleteMeta = async (req, res) => {
 }
 
 // Put
-export const putMeta = (req, res) => {
-  metas.findOneAndUpdate(req.query, { $set: req.body })
+export const putMeta = async (req, res) => {
+  let id = new ObjectId(req.query._id)
+  await metas.findOneAndUpdate({ _id: id }, { $set: req.body })
+  const allMetas = await metas.find({}).toArray()
+  res.send(allMetas) 
 }
